@@ -6,7 +6,7 @@
  * Copyright 2013 Alan Hong. and outher contributors
  * summernote may be freely distributed under the MIT license./
  *
- * Date: 2014-04-26T04:47Z
+ * Date: 2014-04-28T23:33Z
  */
 (function (factory) {
   /* global define */
@@ -664,6 +664,7 @@
           'CTRL+B': 'bold',
           'CTRL+I': 'italic',
           'CTRL+U': 'underline',
+          'CTRL+K': 'link',
           'CTRL+SHIFT+S': 'strikethrough',
           'CTRL+BACKSLASH': 'removeFormat',
           'CTRL+SHIFT+L': 'justifyLeft',
@@ -692,6 +693,7 @@
           'CMD+B': 'bold',
           'CMD+I': 'italic',
           'CMD+U': 'underline',
+          'CMD+K': 'link',
           'CMD+SHIFT+S': 'strikethrough',
           'CMD+BACKSLASH': 'removeFormat',
           'CMD+SHIFT+L': 'justifyLeft',
@@ -2568,8 +2570,12 @@
         var handler = keyMap[aKey.join('+')];
         if (handler) {
           event.preventDefault();
+          if (handler === 'link') {
+            $($editable).closest('.note-editor').find('button[data-event="showLinkDialog"]').click();
 
-          editor[handler]($editable, $editor.data('options'));
+          } else {
+            editor[handler]($editable, $editor.data('options'));
+          }
         } else if (key.isEdit(event.keyCode)) {
           editor.recordUndo($editable);
         }
@@ -2677,7 +2683,7 @@
         return '<button type="button" class="btn btn-default btn-sm btn-small" title="' + lang.image.image + '" data-event="showImageDialog" tabindex="-1"><i class="fa fa-picture-o icon-picture"></i></button>';
       },
       link: function (lang) {
-        return '<button type="button" class="btn btn-default btn-sm btn-small" title="' + lang.link.link + '" data-event="showLinkDialog" tabindex="-1"><i class="fa fa-link icon-link"></i></button>';
+        return '<button type="button" class="btn btn-default btn-sm btn-small" title="' + lang.link.link + '" data-event="showLinkDialog" data-shortcut="Ctrl+K" data-mac-shortcut="⌘+K" tabindex="-1"><i class="fa fa-link icon-link"></i></button>';
       },
       video: function (lang) {
         return '<button type="button" class="btn btn-default btn-sm btn-small" title="' + lang.video.video + '" data-event="showVideoDialog" tabindex="-1"><i class="fa fa-youtube-play icon-play"></i></button>';

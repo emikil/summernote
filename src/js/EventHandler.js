@@ -418,8 +418,12 @@ define([
         var handler = keyMap[aKey.join('+')];
         if (handler) {
           event.preventDefault();
+          if (handler === 'link') {
+            $($editable).closest('.note-editor').find('button[data-event="showLinkDialog"]').click();
 
-          editor[handler]($editable, $editor.data('options'));
+          } else {
+            editor[handler]($editable, $editor.data('options'));
+          }
         } else if (key.isEdit(event.keyCode)) {
           editor.recordUndo($editable);
         }
